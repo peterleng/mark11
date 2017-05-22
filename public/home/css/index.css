@@ -1,0 +1,363 @@
+body, input, textarea, button, select {
+    font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Tahoma, '\5b8b\4f53', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143
+}
+
+s, del {
+    text-decoration: line-through
+}
+
+u, ins {
+    text-decoration: underline
+}
+
+strong {
+    font-weight: bold
+}
+
+em {
+    font-style: italic
+}
+
+small {
+    font-size: 85%
+}
+
+address {
+    font-style: normal
+}
+
+cite {
+    font-style: normal
+}
+
+pre, code, kbd, samp, var {
+    font-family: Consolas, monospace;
+    font-size: 14px
+}
+
+hr {
+    border-bottom: 1px solid #cfcfcf
+}
+
+abbr[title] {
+    cursor: help;
+    border-bottom: 1px dotted
+}
+
+sup, sub {
+    position: relative;
+    font-size: 75%;
+    vertical-align: baseline;
+    line-height: 0
+}
+
+sup {
+    top: -0.5em
+}
+
+sub {
+    bottom: -0.25em
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, menu, form, fieldset, blockquote, pre, hr, input, textarea, button, select {
+    margin: 0
+}
+
+ul, ol, menu, fieldset, legend, input, textarea, button, caption, th, td, blockquote, dir, address {
+    padding: 0
+}
+
+fieldset, iframe, img, hr {
+    border: none
+}
+
+html {
+    overflow: auto;
+    font-family: sans-serif;
+    font-size: 100%
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+    outline: none
+}
+
+a:focus {
+    outline: none
+}
+
+input, textarea, button, select, optgroup, option {
+    font-family: sans-serif;
+    font-size: 1em
+}
+
+input, button, select {
+    overflow: visible;
+    *zoom: 1
+}
+
+textarea {
+    overflow: auto;
+    resize: none
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%
+}
+
+html.borderbox *:before, html.borderbox *:before, html.borderbox *:after, html.borderbox *:after {
+    box-sizing: border-box
+}
+
+input, textarea {
+    appearance: none;
+    border-radius: 0
+}
+
+audio:not([controls]) {
+    display: none;
+    height: 0
+}
+
+svg:not(:root) {
+    overflow: hidden
+}
+
+
+li * {
+    vertical-align: top
+}
+
+img {
+    max-width: 100%;
+    *width: auto;
+    _width: auto
+}
+
+input, button, textarea {
+    outline: none
+}
+
+input[type="button"], button {
+    background: transparent;
+    border: none;
+    cursor: pointer
+}
+
+
+.inline-block {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+
+.txt-overflow {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+.relative {
+    position: relative
+}
+
+.fl {
+    float: left
+}
+
+.fr {
+    float: right
+}
+
+.fl, .fr {
+    display: inline
+}
+
+body {
+    color: #555;
+    background: #fdfdfd;
+    font-family: 'Microsoft YaHei';
+    font-size: 14px
+}
+
+a {
+    color: #555;
+    -webkit-transition: color .3s ease-in-out 0s;
+    transition: color .3s ease-in-out 0s
+}
+
+a:hover {
+    color: #ff6801;
+}
+
+h2 {
+    color: #222;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: normal
+}
+
+h2 a {
+    color: #222
+}
+
+h2 a:hover {
+    color: #ff6801
+}
+
+h3 {
+    max-width: 100%;
+    color: #444;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+h3 a {
+    color: #444;
+    vertical-align: initial
+}
+
+h3 a:hover {
+    color: #ff6801
+}
+
+.w1200 {
+    *zoom: 1;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.w1200:before, .w1200:after {
+    content: " ";
+    display: table
+}
+
+.w1200:after {
+    clear: both
+}
+
+.ml6 {
+    margin-left: 6px
+}
+
+.ml8 {
+    margin-left: 8px
+}
+
+.ml10 {
+    margin-left: 10px
+}
+
+.mt24 {
+    margin-top: 24px
+}
+
+.top-div{
+    background-color: #f9f9f9;
+    border-bottom: solid 1px #ccc;
+}
+
+.calendar{
+    height: 60px;
+    float: left;
+    display: block;
+    margin-right: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.calendar:hover{
+    background-color: #F5F5F5;
+}
+
+.calendar_a{
+    height: 60px;
+    line-height: 60px;
+    padding:0 8px;
+}
+
+.calendar-right{
+    float: right;
+}
+
+.calendar_a:link,.calendar_a:hover,.calendar_a:visited,.calendar_a:active{
+    text-decoration: none;
+}
+
+.calendar_text{
+    font-size: 13px;
+    font-family:Tahoma;
+    color: #999;
+}
+
+.row-fix{
+    border: solid 1px #a1cc9d;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.tab-content .tab-pane{
+    padding: 10px;
+}
+
+.tab-content .tab-pane li{
+    padding: 5px 12px;
+}
+
+.list-inline li{
+    padding: 3px 10px;
+}
+
+.row-left{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px 10px;
+    color: #f55208;
+}
+
+.row-right{
+    border-left: solid 1px #a1cc9d;
+}
+
+.quanwei{
+    margin-top: 30px;
+}
+
+.quanwei .row-left{
+    color: #129a4e;
+}
+
+.quanwei{
+    font-size: 15px;
+}
+
+.cxy .row-left,.cxy .row-right{
+    height:200px;
+}
+
+.footer{
+    text-align: center;
+    padding: 30px 0;
+    font-size: 12px;
+    color: #888;
+    line-height: 24px;
+    background: #f9f9f9;
+    margin-top: 20px;
+}
+
+
