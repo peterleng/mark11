@@ -118,6 +118,31 @@ if (!function_exists('view_path')) {
     }
 }
 
+if (!function_exists('cookie')) {
+
+
+    /**
+     * 设置 读取 cookie
+     *
+     * @param $name
+     * @param null $value
+     * @return bool|mixed
+     */
+    function cookie($name, $value = null)
+    {
+        if(is_null($value)){
+            return setcookie($name,$value,time()-3600);
+        }
+
+        if(empty($value)){
+            return $_COOKIE[$name];
+        }
+
+        return setcookie($name,$value);
+    }
+}
+
+
 
 if (!function_exists('auto_load')) {
 
