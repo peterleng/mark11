@@ -27,11 +27,11 @@ use Closure;
  */
 class Model
 {
-    protected $table = '';
+    protected $table;
 
     protected $primary = 'id';
 
-    protected $prefix = '';
+    protected $prefix;
 
     protected $sqlBuilder;
 
@@ -43,7 +43,7 @@ class Model
     public function getTable()
     {
         if (isset($this->table)) {
-            return $this->table;
+            return $this->getPrefix().$this->table;
         }
 
         return $this->getPrefix() . strtolower(get_class($this));

@@ -78,7 +78,7 @@ class Mysql
         $stmt = $this->mysqli->stmt_init();
         if ($stmt->prepare($sql)) {
 
-            $stmt->bind_param($this->getTypeString($params), $params);
+            $stmt->bind_param($this->getTypeString($params), ...$params);
 
             $flag = $stmt->execute();
 
@@ -109,7 +109,7 @@ class Mysql
         foreach ($params as $column) {
             if(is_string($column)){
                 $type .= 's';
-            }elseif (is_int($column)){
+            }elseif (is_integer($column)){
                 $type .= 'i';
             }elseif (is_float($column) || is_double($column)){
                 $type .= 'd';
@@ -142,7 +142,8 @@ class Mysql
     public function query($sql, array $params)
     {
         return $this->prepare($sql,$params,function ($stmt){
-            return $stmt->get_result();
+            $result = $stmt->get_result();
+            return $result->fetch_object();
         });
     }
 

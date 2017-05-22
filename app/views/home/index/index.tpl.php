@@ -1,3 +1,3 @@
-asdfasdf
+你好
 
-<?php echo $abc ?>
+手机：<?php echo $user->phone ?>
