@@ -1,7 +1,6 @@
 <?php
 
 if (!function_exists('app')) {
-
     /**
      * 获取app应用实例
      *
@@ -14,7 +13,6 @@ if (!function_exists('app')) {
 }
 
 if (!function_exists('root_path')) {
-
     /**
      * root文件夹路径
      *
@@ -29,7 +27,6 @@ if (!function_exists('root_path')) {
 
 
 if (!function_exists('app_path')) {
-
     /**
      * app文件夹路径
      *
@@ -44,7 +41,6 @@ if (!function_exists('app_path')) {
 
 
 if (!function_exists('config')) {
-
     /**
      * @param string $key
      * @param null $default
@@ -58,7 +54,6 @@ if (!function_exists('config')) {
 
 
 if (!function_exists('config_path')) {
-
     /**
      * app/Config目录的路径
      *
@@ -73,7 +68,6 @@ if (!function_exists('config_path')) {
 
 
 if (!function_exists('cache_path')) {
-
     /**
      * app/Cache
      *
@@ -88,8 +82,6 @@ if (!function_exists('cache_path')) {
 
 
 if (!function_exists('view')) {
-
-
     /**
      * 显示模板
      *
@@ -104,8 +96,6 @@ if (!function_exists('view')) {
 }
 
 if (!function_exists('view_path')) {
-
-
     /**
      * 模板路径
      *
@@ -119,8 +109,6 @@ if (!function_exists('view_path')) {
 }
 
 if (!function_exists('cookie')) {
-
-
     /**
      * 设置 读取 cookie
      *
@@ -142,6 +130,33 @@ if (!function_exists('cookie')) {
     }
 }
 
+if (!function_exists('route')) {
+    /**
+     * 路由
+     *
+     * @param string $path
+     * @param array $params
+     * @return string
+     */
+    function route($path, $params = [])
+    {
+        return (new \App\Lib\Route\Router())->getRoute($path,$params);
+    }
+}
+
+
+if (!function_exists('week')) {
+    /**
+     * 替换星期成中文
+     *
+     * @param $str
+     * @return string
+     */
+    function week($str)
+    {
+        return str_replace([1,2,3,4,5,6,7],['一','二','三','四','五','六','天'],$str);
+    }
+}
 
 
 if (!function_exists('auto_load')) {
@@ -156,7 +171,3 @@ if (!function_exists('auto_load')) {
         require_once root_path().DIRECTORY_SEPARATOR.str_replace('\\','/',lcfirst($class)).'.php';
     }
 }
-
-
-
-

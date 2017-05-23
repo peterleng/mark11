@@ -1,3 +1,492 @@
-你好
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.png">
+    <title>Mark11 - 自己专属的导航站</title>
 
-手机：<?php echo $user->phone ?>
+    <!-- Bootstrap -->
+    <link href="../resource/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="../home/css/index.css" rel="stylesheet">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../resource/bootstrap3/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        var MARK = {
+            PHP_DATA : {
+                //php输出的数据
+            },
+            METHOD:{
+                //方法
+            }
+        };
+    </script>
+</head>
+<body>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" tabindex="-1" id="dialogModalDiv"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="top-div">
+    <div class="w1200 row">
+        <div class="col-md-2">
+            <a href="/"><img src="../resource/image/index_logo.png"></a>
+        </div>
+        <div class="col-md-6">
+            <div class="calendar">
+                <a href="https://www.baidu.com/s?word=2017年5月17日&tn=mark11_site&ie=utf-8" class="calendar_a" target="_blank">
+                    <span class="calendar_text"><?php echo date('n月d日') ?></span>
+                    <span class="calendar_text"><?php echo week(date('周N')) ?></span>
+                </a>
+            </div>
+            <!--
+            <div class="calendar">
+                <a href="https://www.baidu.com/s?word=四月廿二&tn=<?php echo config('app.site_pg') ?>&ie=utf-8" class="calendar_a" target="_blank">
+                    <span class="calendar_text">四月廿二</span>
+                </a>
+            </div>
+            -->
+            <div class="calendar">
+                <a href="https://www.baidu.com/s?word=双色球&tn=<?php echo config('app.site_pg') ?>&ie=utf-8" class="calendar_a" target="_blank">
+                    <span class="calendar_text">双色球</span>
+                </a>
+            </div>
+            <div class="calendar">
+                <a href="https://www.baidu.com/s?word=星座运势&tn=<?php echo config('app.site_pg') ?>&ie=utf-8" class="calendar_a" target="_blank">
+                    <span class="calendar_text">星座运势</span>
+                </a>
+            </div>
+            <div class="calendar">
+                <a href="https://www.baidu.com/s?word=天气&tn=<?php echo config('app.site_pg') ?>&ie=utf-8" class="calendar_a" target="_blank">
+                    <span class="calendar_text">天气</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="calendar-right">
+                <div class="calendar">
+                    <a class="calendar_a" data-toggle="modal" data-target=".modal" href="<?php echo route('home.user.login') ?>">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="calendar_text">登录</span>
+                    </a>
+                </div>
+
+                <div class="calendar">
+                    <a class="calendar_a" data-toggle="modal" data-target=".modal" href="<?php echo route('home.user.register') ?>">
+                        <span class="calendar_text">注册</span>
+                    </a>
+                </div>
+                <!--
+                <div class="calendar">
+                    <a href="javascript:;" class="calendar_a">
+                        <span class="calendar_text">手机版</span>
+                    </a>
+                </div>
+                -->
+                <div class="calendar">
+                    <a href="javascript:MARK.addFavorite();" class="calendar_a">
+                        收藏本站
+                    </a>
+                    <a href="javascript:MARK.setHome(this);" class="calendar_a">
+                        设为首页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt24">
+
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">我的常用网址</a></li>
+            <li ><a href="#ios" data-toggle="tab">ios</a></li>
+            <li ><a href="#jmeter" data-toggle="tab">jmeter</a></li>
+        </ul>
+
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="home">
+                <ul class="list-inline">
+                    <li><a href="http://www.baidu.com" target="_blank">30个最常用的网址</a></li>
+                    <li><a href="http://www.baidu.com" target="_blank">百度 • 搜索</a></li>
+                    <li><a href="http://www.baidu.com" target="_blank">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com" target="_blank">网址3网址3网址3</a></li>
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="ios">
+                <ul class="list-inline">
+                    <li><a href="http://www.baidu.com" target="_blank">网址1网址1网址1网址1</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="jmeter">
+                <ul class="list-inline">
+                    <li><a href="http://www.baidu.com" target="_blank">网址1网址1网址1网址1</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
+                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-fix quanwei">
+        <div class="col-md-1 row-left">权威网站</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.people.com.cn" target="_blank">人民网</a></li>
+                <li><a href="http://www.xinhuanet.com" target="_blank">新华网</a></li>
+                <li><a href="http://www.cctv.com" target="_blank">央视网</a></li>
+                <li><a href="http://www.china.com.cn" target="_blank">中国网</a></li>
+                <li><a href="http://www.cri.cn" target="_blank">国际在线</a></li>
+                <li><a href="http://cn.chinadaily.com.cn" target="_blank">中国日报网</a></li>
+                <li><a href="http://www.ce.cn" target="_blank">中国经济网</a></li>
+                <li><a href="http://www.gmw.cn" target="_blank">光明网</a></li>
+                <li><a href="http://www.cnr.cn" target="_blank">央广网</a></li>
+                <li><a href="http://www.youth.cn" target="_blank">中国青年网</a></li>
+                <li><a href="http://www.81.cn" target="_blank">中国军网</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">资讯</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.toutiao.com" target="_blank">今日头条</a></li>
+                <li><a href="http://www.ifeng.com" target="_blank">凤凰网</a></li>
+                <li><a href="http://www.163.com" target="_blank">网易 • 163</a></li>
+                <li><a href="http://www.qq.com" target="_blank">腾讯 • QQ</a></li>
+                <li><a href="http://www.sohu.com" target="_blank">搜狐</a></li>
+                <li><a href="http://www.sina.com.cn" target="_blank">新浪</a></li>
+                <li><a href="http://eastday.com" target="_blank">东方网</a></li>
+                <li><a href="http://www.cztv.com" target="_blank">新蓝网</a></li>
+                <li><a href="http://www.rednet.cn" target="_blank">红网</a></li>
+                <li><a href="http://21cn.com" target="_blank">21CN</a></li>
+                <li><a href="http://www.southcn.com" target="_blank">南方网</a></li>
+                <li><a href="http://www.zaobao.com" target="_blank">联合早报</a></li>
+                <li><a href="http://www.voc.com.cn" target="_blank">华声在线</a></li>
+                <li><a href="http://news.baidu.com" target="_blank">百度新闻</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">视频</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.iqiyi.com" target="_blank">爱奇艺</a></li>
+                <li><a href="http://v.qq.com" target="_blank">腾讯视频</a></li>
+                <li><a href="http://www.youku.com" target="_blank">优酷视频</a></li>
+                <li><a href="http://www.mgtv.com" target="_blank">芒果TV</a></li>
+                <li><a href="http://video.sina.com.cn" target="_blank">新浪视频</a></li>
+                <li><a href="http://www.tudou.com" target="_blank">土豆网</a></li>
+                <li><a href="http://www.le.com" target="_blank">乐视网</a></li>
+                <li><a href="http://v.ifeng.com" target="_blank">凤凰视频</a></li>
+                <li><a href="http://tv.sohu.com" target="_blank">搜狐视频</a></li>
+                <li><a href="https://www.6.cn" target="_blank">六人间秀场</a></li>
+                <li><a href="http://www.56.com" target="_blank">56网</a></li>
+                <li><a href="http://www.funshion.com" target="_blank">风行网</a></li>
+                <li><a href="http://www.aipai.com" target="_blank">爱拍原创</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">购物</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.taobao.com" target="_blank">淘宝网</a></li>
+                <li><a href="http://www.tmall.com" target="_blank">天猫商城</a></li>
+                <li><a href="http://www.jd.com" target="_blank">京东商城</a></li>
+                <li><a href="http://www.suning.com" target="_blank">苏宁易购</a></li>
+                <li><a href="http://www.amazon.cn" target="_blank">亚马逊</a></li>
+                <li><a href="http://www.vip.com" target="_blank">唯品会</a></li>
+                <li><a href="http://www.jumei.com" target="_blank">聚美优品</a></li>
+                <li><a href="http://www.gome.com.cn" target="_blank">国美在线</a></li>
+                <li><a href="http://www.yhd.com" target="_blank">1号店</a></li>
+                <li><a href="http://www.dangdang.com" target="_blank">当当网</a></li>
+                <li><a href="http://www.mogujie.com" target="_blank">蘑菇街</a></li>
+                <li><a href="http://www.meilishuo.com" target="_blank">美丽说</a></li>
+                <li><a href="http://www.kaola.com" target="_blank">网易 • 考拉海购</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">直播</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.douyu.com" target="_blank">斗鱼TV</a></li>
+                <li><a href="http://www.huajiao.com" target="_blank">花椒直播</a></li>
+                <li><a href="http://www.panda.tv" target="_blank">熊猫TV</a></li>
+                <li><a href="http://www.longzhu.com" target="_blank">龙珠直播</a></li>
+                <li><a href="http://www.huya.com" target="_blank">虎牙直播</a></li>
+                <li><a href="http://www.yy.com" target="_blank">YY直播</a></li>
+                <li><a href="http://www.zhanqi.tv" target="_blank">战旗TV</a></li>
+                <li><a href="http://www.bilibili.com" target="_blank">哗哩哗哩</a></li>
+                <li><a href="http://www.acfun.cn" target="_blank">AcFun</a></li>
+                <li><a href="http://www.inke.cn" target="_blank">映客直播</a></li>
+                <li><a href="http://www.fengyunlive.com" target="_blank">风云直播</a></li>
+                <li><a href="http://www.showself.com" target="_blank">秀色直播</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">邮箱</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://mail.163.com" target="_blank">163邮箱</a></li>
+                <li><a href="http://mail.126.com" target="_blank">126邮箱</a></li>
+                <li><a href="http://mail.qq.com" target="_blank">QQ邮箱</a></li>
+                <li><a href="http://mail.sina.com.cn" target="_blank">新浪邮箱</a></li>
+                <li><a href="http://mail.sohu.com" target="_blank">搜狐邮箱</a></li>
+                <li><a href="http://www.outlook.com" target="_blank">outlook邮箱</a></li>
+                <li><a href="http://www.foxmail.com" target="_blank">foxmail</a></li>
+                <li><a href="http://www.icloud.com" target="_blank">icloud</a></li>
+                <li><a href="http://mail.aliyun.com" target="_blank">阿里云邮箱</a></li>
+                <li><a href="http://mail.10086.cn" target="_blank">移动139邮箱</a></li>
+                <li><a href="http://mail.189.cn" target="_blank">电信189邮箱</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">社区</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://weibo.com" target="_blank">新浪 • 微博</a></li>
+                <li><a href="http://qzone.qq.com" target="_blank">QQ • 空间</a></li>
+                <li><a href="http://tieba.baidu.com" target="_blank">百度 • 贴吧</a></li>
+                <li><a href="http://www.kaixin001.com" target="_blank">开心网</a></li>
+                <li><a href="http://www.51.com" target="_blank">51空间</a></li>
+                <li><a href="http://www.renren.com" target="_blank">人人网</a></li>
+                <li><a href="http://www.zhihu.com" target="_blank">知乎</a></li>
+                <li><a href="http://www.douban.com" target="_blank">豆瓣</a></li>
+                <li><a href="http://www.tianya.cn" target="_blank">天涯社区</a></li>
+                <li><a href="http://dzh.mop.com" target="_blank">猫扑</a></li>
+                <li><a href="http://www.xici.net" target="_blank">西祠胡同</a></li>
+                <li><a href="http://www.linkedin.com" target="_blank">领英</a></li>
+                <li><a href="http://www.qiushibaike.com" target="_blank">糗事百科</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">科技</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.pconline.com.cn" target="_blank">太平洋电脑</a></li>
+                <li><a href="http://www.zol.com.cn" target="_blank">中关村在线</a></li>
+                <li><a href="http://www.techweb.com.cn" target="_blank">TechWeb</a></li>
+                <li><a href="http://www.91.com" target="_blank">91门户</a></li>
+                <li><a href="http://www.leiphone.com" target="_blank">雷锋网</a></li>
+                <li><a href="http://www.kejixun.com" target="_blank">科技讯</a></li>
+                <li><a href="http://www.yesky.com" target="_blank">天极网</a></li>
+                <li><a href="http://www.it.com.cn" target="_blank">IT世界网</a></li>
+                <li><a href="http://www.ithome.com" target="_blank">IT之家</a></li>
+                <li><a href="http://www.it168.com" target="_blank">IT168</a></li>
+                <li><a href="http://www.zealer.com" target="_blank">Zealer</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">手机 • 官网</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.apple.com.cn/iphone" target="_blank">苹果</a></li>
+                <li><a href="http://www.samsung.com.cn" target="_blank">三星</a></li>
+                <li><a href="https://www.vmall.com" target="_blank">华为</a></li>
+                <li><a href="http://www.oppo.com" target="_blank">OPPO</a></li>
+                <li><a href="http://www.vivo.com.cn" target="_blank">vivo</a></li>
+                <li><a href="http://www.mi.com" target="_blank">小米</a></li>
+                <li><a href="http://www.meizu.com" target="_blank">魅族</a></li>
+                <li><a href="http://www.lenovomobile.com" target="_blank">联想</a></li>
+                <li><a href="http://www.sonystyle.com.cn" target="_blank">索尼</a></li>
+                <li><a href="http://www.motorola.com.cn" target="_blank">摩托罗拉</a></li>
+                <li><a href="http://www.htc.com" target="_blank">HTC</a></li>
+                <li><a href="http://www.lg.com" target="_blank">LG</a></li>
+                <li><a href="http://www.coolpad.cn" target="_blank">酷派</a></li>
+                <li><a href="http://i360mall.com" target="_blank">360手机</a></li>
+                <li><a href="http://www.meitushop.com" target="_blank">美图手机</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">旅游</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.ctrip.com" target="_blank">携程旅行网</a></li>
+                <li><a href="http://www.qunar.com" target="_blank">去哪儿</a></li>
+                <li><a href="http://www.ly.com" target="_blank">同程旅游</a></li>
+                <li><a href="http://www.alitrip.com" target="_blank">飞猪旅游</a></li>
+                <li><a href="http://www.tuniu.com" target="_blank">途牛网</a></li>
+                <li><a href="http://www.elong.com" target="_blank">艺龙网</a></li>
+                <li><a href="http://www.lvmama.com" target="_blank">驴妈妈</a></li>
+                <li><a href="http://www.lotour.com" target="_blank">乐途旅行网</a></li>
+                <li><a href="http://www.qyer.com" target="_blank">穷游网</a></li>
+                <li><a href="http://www.miutour.com" target="_blank">蜜柚旅行</a></li>
+                <li><a href="http://www.mafengwo.cn" target="_blank">蚂蚁窝</a></li>
+                <li><a href="http://www.xiaozhu.com" target="_blank">小猪短租</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">汽车</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.autohome.com.cn" target="_blank">汽车之家</a></li>
+                <li><a href="http://www.bitauto.com" target="_blank">易车网</a></li>
+                <li><a href="http://www.pcauto.com.cn" target="_blank">太平洋汽车</a></li>
+                <li><a href="http://auto.qq.com" target="_blank">腾讯汽车</a></li>
+                <li><a href="http://auto.163.com" target="_blank">网易汽车</a></li>
+                <li><a href="http://auto.sohu.com" target="_blank">搜狐汽车</a></li>
+                <li><a href="http://auto.sina.com.cn" target="_blank">新浪汽车</a></li>
+                <li><a href="http://auto.ifeng.com" target="_blank">凤凰汽车</a></li>
+                <li><a href="http://www.renrenche.com" target="_blank">人人车</a></li>
+                <li><a href="http://www.guazi.com" target="_blank">瓜子二手车</a></li>
+                <li><a href="http://www.xincheping.com" target="_blank">新车评网</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">生活</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.58.com" target="_blank">58同城</a></li>
+                <li><a href="http://www.ganji.com" target="_blank">赶集网</a></li>
+                <li><a href="http://www.baixing.com" target="_blank">百姓网</a></li>
+                <li><a href="http://www.fang.com" target="_blank">房天下</a></li>
+                <li><a href="http://www.lianjia.com" target="_blank">链家网</a></li>
+                <li><a href="http://www.damai.cn" target="_blank">大麦网 • 票务</a></li>
+                <li><a href="http://www.dianping.com" target="_blank">大众点评网</a></li>
+                <li><a href="http://www.meishichina.com" target="_blank">美食天下</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">游戏</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.4399.com" target="_blank">4399游戏</a></li>
+                <li><a href="http://www.7k7k.com" target="_blank">7k7k小游戏</a></li>
+                <li><a href="http://www.37.com" target="_blank">37游戏</a></li>
+                <li><a href="http://www.3366.com" target="_blank">3366小游戏</a></li>
+                <li><a href="http://flash.17173.com" target="_blank">17173小游戏</a></li>
+                <li><a href="http://xiaoyouxi.2345.com" target="_blank">2345小游戏</a></li>
+                <li><a href="http://www.2144.cn" target="_blank">2144小游戏</a></li>
+                <li><a href="http://xyx.hao123.com" target="_blank">hao123小游戏</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">下载</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://www.xiazaiba.com" target="_blank">下载吧</a></li>
+                <li><a href="http://baoku.360.cn" target="_blank">360软件宝库</a></li>
+                <li><a href="http://rj.baidu.com" target="_blank">百度软件中心</a></li>
+                <li><a href="http://www.cr173.com" target="_blank">西西软件园</a></li>
+                <li><a href="http://xiazai.zol.com.cn" target="_blank">ZOL下载</a></li>
+                <li><a href="http://dl.pconline.com.cn" target="_blank">太平洋下载</a></li>
+                <li><a href="http://www.crsky.com" target="_blank">非凡软件</a></li>
+                <li><a href="http://www.skycn.com" target="_blank">天空下载</a></li>
+                <li><a href="http://www.onlinedown.net" target="_blank">华军软件园</a></li>
+                <li><a href="http://www.duote.com" target="_blank">多特软件园</a></li>
+                <li><a href="http://www.qudong.com" target="_blank">驱动中国</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!--
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">工具类</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://translate.google.cn" target="_blank">Google翻译</a></li>
+                <li><a href="http://packagist.org" target="_blank">Packagist</a></li>
+                <li><a href="http://stackoverflow.com" target="_blank">Stack Overflow</a></li>
+            </ul>
+        </div>
+    </div>
+    -->
+
+    <div class="row row-fix">
+        <div class="col-md-1 row-left">程序员</div>
+        <div class="col-md-11 row-right">
+            <ul class="list-inline">
+                <li><a href="http://github.com" target="_blank">GitHub</a></li>
+                <li><a href="http://stackoverflow.com" target="_blank">Stack Overflow</a></li>
+                <li><a href="http://www.csdn.net" target="_blank">CSDN</a></li>
+                <li><a href="http://segmentfault.com" target="_blank">SegmentFault</a></li>
+                <li><a href="http://www.oschina.net" target="_blank">开源中国</a></li>
+                <li><a href="http://www.cnblogs.com" target="_blank">博客园</a></li>
+                <li><a href="http://www.iteye.com" target="_blank">ITeye</a></li>
+                <li><a href="http://www.golaravel.com" target="_blank">Laravel</a></li>
+                <li><a href="http://packagist.org" target="_blank">Packagist</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="row footer">
+    <p>© Mark11站点管理员版权所有 鄂B2-20110110</p>
+    <p>抵制不良内容  拒绝盗版  注意自我保护  谨防上当受骗  享受健康生活</p>
+</div>
+
+
+<script src="../home/js/index.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('li a').on('click',function () {
+//            alert($(this).attr('href'));
+        });
+    });
+</script>
+
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</body>
+</html>
