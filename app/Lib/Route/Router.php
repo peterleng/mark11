@@ -13,6 +13,8 @@ use App\Lib\Http\Request;
 class Router
 {
 
+    protected $controller = 'App\\Http\\Controllers\\';
+
     /**
      * 导向controller中执行
      *
@@ -54,9 +56,9 @@ class Router
      */
     protected function dispatch($group, $controller, $method, $params)
     {
-        $controller = 'App\\Http\\Controllers\\' . ucfirst($group) . '\\' . ucfirst($controller) . 'Controller';
-
-        if(class_exists($controller,false)){
+        $file = app_path('Http/Controllers').DIRECTORY_SEPARATOR.ucfirst($group).DIRECTORY_SEPARATOR.ucfirst($controller).'Controller.php';
+        if(file_exists($file)){
+            $controller = $this->controller . ucfirst($group) . '\\' . ucfirst($controller) . 'Controller';
             call_user_func_array([new $controller(), strtolower($method)], $params);
         }else{
             call_user_func_array([new Controller(), 'notFound'], []);
