@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'domain' => 'localhost',
+    'domain' => 'mark11.dev',
     'group' => ['home', 'admin'],
     'default_group' => 'home',
     'sub_domain' => [

@@ -20,15 +20,26 @@ class Router
     public function render($request)
     {
         $path = trim($request->path(), '/');
-        $fullpath = $request->fullUrl();
+        $path_tmp = explode('/', $path);
+        $idx = 0;
 
-        $path_arr = empty($path) ? [] : explode('/', $path);
+        $group = $controller = $action = '';
 
-        //TODO  子域名
+        //子域名
+        $host = $request->getHost();
+        $subdomains = config('app.sub_domain');
+        $sub = explode('.', $host)[0];
+        if (array_key_exists($sub, $subdomains)) {
+            $group = str_replace('/', '\\', $subdomains[$sub]);
+        }else{
+            $group = empty($path_tmp[$idx]) ? config('app.default_group') : $path_tmp[$idx];
+            $idx++;
+        }
+        $controller = empty($path_tmp[$idx]) ? 'index' : $path_tmp[$idx];
+        $idx++;
+        $action = empty($path_tmp[$idx]) ? 'index' : $path_tmp[$idx];
 
-        $route = $this->buildRoute($path_arr);
-
-        $this->dispatch($route[0], $route[1], $route[2], [$request]);
+        $this->dispatch($group, $controller, $action, [$request]);
     }
 
 
@@ -48,30 +59,14 @@ class Router
 
 
     /**
-     * 构建路由
-     *
-     * @param array $pathArr
-     * @return array
-     */
-    protected function buildRoute(array $pathArr)
-    {
-        $group = empty($pathArr[0]) || count($pathArr) < 3 ? config('app.default_group') : $pathArr[0];
-        $controller = isset($pathArr[1]) ? $pathArr[1] : 'index';
-        $action = isset($pathArr[2]) ? $pathArr[2] : 'index';
-
-        return [$group, $controller, $action];
-    }
-
-
-    /**
      * 通过路径构建一个路由
      *
-     * @param string $path   例如：home.user.login
+     * @param string $path 例如：home.user.login
      * @param array $params
      * @return string
      */
     public function getRoute($path = '', $params = [])
     {
-        return '/' . implode('/', $this->buildRoute(explode('.', $path))) . (empty($params) ? '' : '?' . implode('&', $params));
+        return '/' . implode('/', explode('.', $path)) . (empty($params) ? '' : '?' . implode('&', $params));
     }
 }

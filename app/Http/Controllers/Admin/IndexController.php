@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Admin;
 
 
 use App\Lib\Http\Controller as BaseController;
@@ -12,9 +12,8 @@ use App\Lib\Http\Request;
  */
 class IndexController extends BaseController
 {
-
     public function index(Request $request)
     {
-        return view('home.index.index',[]);
+        return view('admin.index',[]);
     }
 }
