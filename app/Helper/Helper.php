@@ -89,7 +89,7 @@ if (!function_exists('view')) {
      * @param array $vars
      * @return \App\Lib\Http\Response
      */
-    function view($view,array $vars)
+    function view($view,array $vars = [])
     {
         return App\Lib\View\View::getInstance()->display($view,$vars);
     }

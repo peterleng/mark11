@@ -7,6 +7,7 @@
 namespace App\Lib\Route;
 
 
+use App\Lib\Http\Controller;
 use App\Lib\Http\Request;
 
 class Router
@@ -54,7 +55,12 @@ class Router
     protected function dispatch($group, $controller, $method, $params)
     {
         $controller = 'App\\Http\\Controllers\\' . ucfirst($group) . '\\' . ucfirst($controller) . 'Controller';
-        call_user_func_array([new $controller(), strtolower($method)], $params);
+
+        if(class_exists($controller,false)){
+            call_user_func_array([new $controller(), strtolower($method)], $params);
+        }else{
+            call_user_func_array([new Controller(), 'notFound'], []);
+        }
     }
 
 

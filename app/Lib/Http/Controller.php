@@ -25,15 +25,9 @@ class Controller
     }
 
 
-    /**
-     * 显示模板
-     *
-     * @param string $view
-     * @param array $vars
-     */
-    protected function display($view,array $vars)
+    public function notFound()
     {
-        return $this->view->render($view,$vars);
+        return view('errors.404');
     }
 
 
