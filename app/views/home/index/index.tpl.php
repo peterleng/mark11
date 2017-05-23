@@ -9,14 +9,14 @@
     <title>Mark11 - 自己专属的导航站</title>
 
     <!-- Bootstrap -->
-    <link href="../resource/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resource/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- 自定义样式 -->
-    <link href="../home/css/index.css" rel="stylesheet">
+    <link href="/home/css/index.css" rel="stylesheet">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../resource/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="/resource/bootstrap3/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
         var MARK = {
@@ -42,7 +42,7 @@
 <div class="top-div">
     <div class="w1200 row">
         <div class="col-md-2">
-            <a href="/"><img src="../resource/image/index_logo.png"></a>
+            <a href="/"><img src="/resource/image/index_logo.png"></a>
         </div>
         <div class="col-md-6">
             <div class="calendar">

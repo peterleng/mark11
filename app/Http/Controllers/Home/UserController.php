@@ -20,6 +20,6 @@ class UserController extends BaseController
 
     public function register(Request $request)
     {
-        return view('home.user.login',[]);
+        return view('home.user.register',[]);
     }
 }

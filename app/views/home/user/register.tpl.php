@@ -27,7 +27,7 @@
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭
     </button>
-    <button type="button" class="btn btn-primary" onclick="BC.submitForm();">
+    <button type="button" class="btn btn-success" onclick="BC.submitForm();">
         提交更改
     </button>
 </div>
