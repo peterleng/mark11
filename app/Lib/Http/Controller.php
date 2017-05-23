@@ -25,6 +25,11 @@ class Controller
     }
 
 
+    /**
+     * 404页面
+     *
+     * @return Response
+     */
     public function notFound()
     {
         return view('errors.404');
