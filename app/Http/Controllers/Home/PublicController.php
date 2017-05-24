@@ -15,8 +15,12 @@ class PublicController extends BaseController
 {
     public function imgCode(Request $request)
     {
+        $w = $request->input('w',80);
+        $h = $request->input('h',30);
+        $l = $request->input('l',4);
+
         $imageCode = new ImageCode();
-        $imageCode->show();
+        $imageCode->show($w,$h,$l);
     }
 
     public function register(Request $request)
