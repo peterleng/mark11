@@ -238,6 +238,17 @@ class Response
         return $this;
     }
 
+    /**
+     * 设置内容
+     *
+     * @param mixed $content
+     * @return $this
+     */
+    protected function setContent($content)
+    {
+        $this->content = $content;
+        return $this;
+    }
 
     /**
      * 清除输出缓存到制定级别

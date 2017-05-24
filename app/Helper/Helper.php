@@ -109,6 +109,34 @@ if (!function_exists('view_path')) {
     }
 }
 
+if (!function_exists('json')) {
+    /**
+     * 返回json response
+     *
+     * @param array $data
+     * @return string
+     */
+    function json(array $data)
+    {
+        return new \App\Lib\Http\JsonResponse($data);
+    }
+}
+
+if (!function_exists('jsonp')) {
+    /**
+     * 返回json response 带有callback
+     *
+     * @param array $data
+     * @param string $callback
+     * @return string
+     */
+    function jsonp(array $data,$callback = null)
+    {
+        return (new \App\Lib\Http\JsonResponse($data))->setCallback($callback);
+    }
+}
+
+
 if (!function_exists('cookie')) {
     /**
      * 设置 读取 cookie
