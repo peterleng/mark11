@@ -8,6 +8,7 @@ namespace App\Http\Repositories;
 
 
 use App\Http\Models\User;
+use App\Lib\Exception\Logic\BusinessException;
 
 /**
  * 用户仓库
@@ -35,5 +36,40 @@ class UserRepository
     {
         return $this->userModel->find($id);
     }
-    
+
+    /**
+     * 通过手机号查询用户
+     *
+     * @param $phone
+     * @return mixed
+     */
+    public function findByPhone($phone)
+    {
+        return $this->userModel->findBy(['phone' => $phone]);
+    }
+
+    /**
+     * 通过手机 密码 注册用户
+     *
+     * @param string $phone
+     * @param string $passwd
+     * @return mixed
+     * @throws BusinessException
+     */
+    public function registerBy($phone, $passwd)
+    {
+        $result = $this->userModel->insert(['phone' => $phone,'passwd'=>bcrypt($passwd),'status'=>1]);
+        if (!$result) throw new BusinessException('注册失败，请重试');
+        return $this->findByPhone($phone);
+    }
+
+    /**
+     * 登录
+     */
+    /*public function login($phone,$passwd)
+    {
+        $user = $this->userModel->findBy(['phone'=>$phone]);
+
+    }*/
+
 }

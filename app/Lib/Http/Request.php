@@ -254,8 +254,8 @@ class Request
 
         $this->method = strtoupper($this->server['REQUEST_METHOD']) ?: 'GET';
         if ('POST' === $this->method) {
-            if ($method = $this->server['X-HTTP-METHOD-OVERRIDE']) {
-                $this->method = strtoupper($method);
+            if (isset($this->server['X-HTTP-METHOD-OVERRIDE'])) {
+                $this->method = strtoupper($this->server['X-HTTP-METHOD-OVERRIDE']);
             } else {
                 $this->method = strtoupper($this->input('_method', 'POST'));
             }

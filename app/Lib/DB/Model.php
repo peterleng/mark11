@@ -33,6 +33,11 @@ class Model
 
     protected $prefix;
 
+    protected $timestamps = false;
+
+    protected $update_time = 'update_time';
+    protected $create_time = 'create_time';
+
     protected $sqlBuilder;
 
     /**
@@ -101,5 +106,38 @@ class Model
         $query = $this->newQuery();
 
         return call_user_func_array([$query, $method], $params);
+    }
+
+
+    /**
+     * 是否为更新操作
+     *
+     * @param bool $isUpdate
+     * @return array
+     */
+    public function generateTime($isUpdate = false)
+    {
+        if(!$this->timestamps) return [];
+        $result = [];
+
+        if(!empty($this->create_time) && !$isUpdate){
+            $result[$this->create_time] = $this->time();
+        }
+
+        if(!empty($this->update_time)){
+            $result[$this->update_time] = $this->time();
+        }
+
+        return $result;
+    }
+
+    /**
+     * 获取当前时间串
+     *
+     * @return false|string
+     */
+    protected function time()
+    {
+        return date('Y-m-d H:i:s');
     }
 }

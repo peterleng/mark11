@@ -12,4 +12,6 @@ use App\Lib\DB\Model;
 class User extends Model
 {
     protected $table = 'user';
+
+    protected $timestamps = true;
 }

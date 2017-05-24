@@ -132,10 +132,19 @@ class SqlBuilder
      */
     public function insert(array $values)
     {
-        $wh = str_repeat('?,', count($values));
-        $sql = 'INSERT INTO `' . $this->model->getTable() . '` VALUES (' . rtrim($wh, ',') . ')';
+        $values = array_merge($values,$this->model->generateTime(false));
 
-        return $this->mysql()->insert($sql, array_values($values));
+        $fields = $wh = '';
+        $params = [];
+        foreach ($values as $key => $value) {
+            $fields .= '`'.$key.'`,';
+            $wh .= '?,';
+            $params[] = $value;
+        }
+
+        $sql = 'INSERT INTO `' . $this->model->getTable() . '` ('.rtrim($fields,',').') VALUES  (' . rtrim($wh, ',') . ')';
+
+        return $this->mysql()->insert($sql, $params);
     }
 
 
@@ -149,6 +158,8 @@ class SqlBuilder
      */
     public function update($where, array $values, $limit = null)
     {
+        $values = array_merge($values,$this->model->generateTime(true));
+
         $whereStr = $valStr = '';
         $params = $whereArr = $valueArr = [];
 
@@ -245,5 +256,4 @@ class SqlBuilder
     {
         return $this->mysql()->getQueryLog();
     }
-
 }
