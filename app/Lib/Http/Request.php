@@ -49,6 +49,15 @@ class Request
     protected $method = null;
 
     /**
+     * cookie的值
+     *
+     * @var
+     */
+    protected $cookies = [];
+
+    protected $session;
+
+    /**
      * 内容
      *
      * @var string
@@ -61,6 +70,7 @@ class Request
         $this->query = &$_GET;
         $this->request = &$_POST;
         $this->files = &$_FILES;
+        $this->cookies = &$_COOKIE;
     }
 
     /**
@@ -337,5 +347,16 @@ class Request
     public function allFiles()
     {
         return $this->files;
+    }
+
+    /**
+     * 获取cookie的值
+     *
+     * @param string $name
+     * @return mixed|null
+     */
+    public function cookie($name = '')
+    {
+        return isset($this->cookies[$name]) ? $this->cookies[$name] : null;
     }
 }

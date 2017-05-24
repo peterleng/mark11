@@ -8,7 +8,7 @@ if (!function_exists('app')) {
      */
     function app()
     {
-        return \App\Lib\Application::getInstance();
+        return App\Lib\Application::getInstance();
     }
 }
 
@@ -21,7 +21,7 @@ if (!function_exists('root_path')) {
      */
     function root_path($path = '')
     {
-        return dirname(dirname(dirname(__FILE__))).$path;
+        return dirname(dirname(dirname(__FILE__))) . $path;
     }
 }
 
@@ -35,7 +35,7 @@ if (!function_exists('app_path')) {
      */
     function app_path($path = '')
     {
-        return dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.$path;
+        return dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . $path;
     }
 }
 
@@ -48,7 +48,8 @@ if (!function_exists('config')) {
      */
     function config($key, $default = null)
     {
-        return app()->config($key,$default);
+        return App\Lib\Config\Config::getInstance()->get($key,$default);
+        //return app()->config($key, $default);
     }
 }
 
@@ -62,7 +63,7 @@ if (!function_exists('config_path')) {
      */
     function config_path($path = '')
     {
-        return app_path('Config').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app_path('Config') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
@@ -76,7 +77,7 @@ if (!function_exists('cache_path')) {
      */
     function cache_path($path = '')
     {
-        return app_path('Cache').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app_path('Cache') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
@@ -89,9 +90,9 @@ if (!function_exists('view')) {
      * @param array $vars
      * @return \App\Lib\Http\Response
      */
-    function view($view,array $vars = [])
+    function view($view, array $vars = [])
     {
-        return App\Lib\View\View::getInstance()->display($view,$vars);
+        return App\Lib\View\View::getInstance()->display($view, $vars);
     }
 }
 
@@ -104,7 +105,7 @@ if (!function_exists('view_path')) {
      */
     function view_path($path = '')
     {
-        return app_path('views').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return app_path('views') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
@@ -112,23 +113,54 @@ if (!function_exists('cookie')) {
     /**
      * 设置 读取 cookie
      *
-     * @param $name
-     * @param null $value
-     * @return bool|mixed
+     * @param string $name
+     * @param string $value
+     * @param int $expire
+     * @return bool
      */
-    function cookie($name, $value = null)
+    function cookie($name, $value = '', $expire = null)
     {
-        if(is_null($value)){
-            return setcookie($name,$value,time()-3600);
+        if (is_null($value)) {
+            return setcookie($name, $value, time() - 3600);
         }
 
-        if(empty($value)){
+        if (empty($value)) {
             return $_COOKIE[$name];
         }
 
-        return setcookie($name,$value);
+        return setcookie($name, $value, $expire);
     }
 }
+
+if (!function_exists('session')) {
+    /**
+     * 获取session对象
+     *
+     * @param string $key
+     * @param string $default
+     * @return mixed
+     */
+    function session($key, $default = null)
+    {
+        return App\Lib\Http\Session::getInstance()->get($key, $default);
+    }
+}
+
+if (!function_exists('session_set')) {
+
+    /**
+     * 设置session值
+     *
+     * @param string $key
+     * @param $value
+     * @return void
+     */
+    function session_set($key, $value)
+    {
+        App\Lib\Http\Session::getInstance()->put($key, $value);
+    }
+}
+
 
 if (!function_exists('route')) {
     /**
@@ -140,7 +172,7 @@ if (!function_exists('route')) {
      */
     function route($path, $params = [])
     {
-        return (new \App\Lib\Route\Router())->getRoute($path,$params);
+        return App\Lib\Route\Router::getRoute($path, $params);
     }
 }
 
@@ -154,20 +186,6 @@ if (!function_exists('week')) {
      */
     function week($str)
     {
-        return str_replace([1,2,3,4,5,6,7],['一','二','三','四','五','六','天'],$str);
-    }
-}
-
-
-if (!function_exists('auto_load')) {
-
-    /**
-     * 自动加载所需的php文件
-     *
-     * @param $class
-     */
-    function auto_load($class)
-    {
-        require_once root_path().DIRECTORY_SEPARATOR.str_replace('\\','/',lcfirst($class)).'.php';
+        return str_replace([1, 2, 3, 4, 5, 6, 7], ['一', '二', '三', '四', '五', '六', '天'], $str);
     }
 }

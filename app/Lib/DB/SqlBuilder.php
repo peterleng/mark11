@@ -135,7 +135,7 @@ class SqlBuilder
         $wh = str_repeat('?,', count($values));
         $sql = 'INSERT INTO `' . $this->model->getTable() . '` VALUES (' . rtrim($wh, ',') . ')';
 
-        return $this->mysql()->insert($sql, $values);
+        return $this->mysql()->insert($sql, array_values($values));
     }
 
 

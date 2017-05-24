@@ -78,7 +78,9 @@ class Mysql
         $stmt = $this->mysqli->stmt_init();
         if ($stmt->prepare($sql)) {
 
-            $stmt->bind_param($this->getTypeString($params), ...$params);
+            if(!empty($params)){
+                $stmt->bind_param($this->getTypeString($params), ...$params);
+            }
 
             $flag = $stmt->execute();
 

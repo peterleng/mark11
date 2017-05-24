@@ -9,6 +9,7 @@ namespace App\Lib\Route;
 
 use App\Lib\Http\Controller;
 use App\Lib\Http\Request;
+use App\Lib\Http\Response;
 
 class Router
 {
@@ -19,6 +20,7 @@ class Router
      * 导向controller中执行
      *
      * @param Request $request
+     * @return Response
      */
     public function render($request)
     {
@@ -42,7 +44,7 @@ class Router
         $idx++;
         $action = empty($path_tmp[$idx]) ? 'index' : $path_tmp[$idx];
 
-        $this->dispatch($group, $controller, $action, [$request]);
+        return $this->dispatch($group, $controller, $action, [$request]);
     }
 
 
@@ -53,15 +55,16 @@ class Router
      * @param $controller
      * @param $method
      * @param $params
+     * @return Response
      */
     protected function dispatch($group, $controller, $method, $params)
     {
         $file = app_path('Http/Controllers').DIRECTORY_SEPARATOR.ucfirst($group).DIRECTORY_SEPARATOR.ucfirst($controller).'Controller.php';
         if(file_exists($file)){
             $controller = $this->controller . ucfirst($group) . '\\' . ucfirst($controller) . 'Controller';
-            call_user_func_array([new $controller(), strtolower($method)], $params);
+            return call_user_func_array([new $controller(), strtolower($method)], $params);
         }else{
-            call_user_func_array([new Controller(), 'notFound'], []);
+            return call_user_func_array([new Controller(), 'notFound'], []);
         }
     }
 
@@ -73,7 +76,7 @@ class Router
      * @param array $params
      * @return string
      */
-    public function getRoute($path = '', $params = [])
+    public static function getRoute($path = '', $params = [])
     {
         return '/' . implode('/', explode('.', $path)) . (empty($params) ? '' : '?' . implode('&', $params));
     }

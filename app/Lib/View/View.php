@@ -31,7 +31,7 @@ class View
         }
 
         $response = new Response($this->render(view_path($view),$var));
-        $response->send();
+        return $response;
     }
 
 
