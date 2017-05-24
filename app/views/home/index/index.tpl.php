@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-6">
             <div class="calendar">
-                <a href="https://www.baidu.com/s?word=2017年5月17日&tn=mark11_site&ie=utf-8" class="calendar_a" target="_blank">
+                <a href="https://www.baidu.com/s?word=<?php echo date('Y年n月d日') ?>&tn=<?php echo config('app.site_pg') ?>&ie=utf-8" class="calendar_a" target="_blank">
                     <span class="calendar_text"><?php echo date('n月d日') ?></span>
                     <span class="calendar_text"><?php echo week(date('周N')) ?></span>
                 </a>
@@ -96,10 +96,10 @@
                 </div>
                 -->
                 <div class="calendar">
-                    <a href="javascript:MARK.addFavorite();" class="calendar_a">
+                    <a href="javascript:MARK.addFavorite(window.location,document.title);" class="calendar_a">
                         收藏本站
                     </a>
-                    <a href="javascript:MARK.setHome(this);" class="calendar_a">
+                    <a href="javascript:MARK.setHome(this,window.location);" class="calendar_a">
                         设为首页
                     </a>
                 </div>
@@ -472,14 +472,7 @@
 </div>
 
 
-<script src="../home/js/index.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('li a').on('click',function () {
-//            alert($(this).attr('href'));
-        });
-    });
-</script>
+<script src="/home/js/index.js"></script>
 
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

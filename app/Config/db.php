@@ -9,5 +9,5 @@ return [
     'charset' => 'utf8',
     'prefix' => 'mk_',
 
-    'fetch' => 'object', //获取结果集的方式
+    //'fetch' => 'object', //获取结果集的方式
 ];

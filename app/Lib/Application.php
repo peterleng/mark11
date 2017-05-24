@@ -37,18 +37,17 @@ class Application
      */
     public function run()
     {
-        try{
+        try {
             $session = $this->sessionManager->startSession($this->request);
             $response = $this->router->render($this->request);
             $this->sessionManager->destroySession($session);
             $response->send();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->showError($e);
-        }catch (\Throwable $t){
+        } catch (\Throwable $t) {
             $this->showError($t);
         }
     }
-
 
 
     /**
@@ -58,9 +57,9 @@ class Application
      */
     protected function showError($e)
     {
-        if(APP_DEBUG){
+        if (APP_DEBUG) {
             var_dump($e);
-        }else{
+        } else {
             echo '程序出错了~~~';
         }
         exit;

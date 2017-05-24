@@ -62,7 +62,7 @@ class Session implements SessionInterface
      * @param SessionHandlerInterface $handler
      * @return $this
      */
-    public function initHandler($name,SessionHandlerInterface $handler)
+    public function initHandler($name, SessionHandlerInterface $handler)
     {
         $this->name = $name;
         $this->handler = $handler;
