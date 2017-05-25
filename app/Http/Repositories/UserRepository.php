@@ -9,6 +9,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Models\User;
 use App\Lib\Exception\Logic\BusinessException;
+use App\Lib\Util\PasswordHash;
 
 /**
  * 用户仓库
@@ -60,8 +61,8 @@ class UserRepository
      */
     public function registerBy($phone, $passwd)
     {
-        $result = $this->userModel->insert(['phone' => $phone,'passwd'=>$passwd,'status'=>1]);
-        if (!$result) throw new BusinessException('注册失败，请重试');
+        $result = $this->userModel->insert(['phone' => $phone,'passwd'=>PasswordHash::hash($passwd),'status'=>1]);
+        if (!$result) throw new BusinessException('注册失败，请重试',501);
         return $this->findByPhone($phone);
     }
 
@@ -71,11 +72,13 @@ class UserRepository
      * 通过手机号密码登录
      *
      * @return mixed
+     * @throws BusinessException
      */
     public function login($phone,$passwd)
     {
-        $user = $this->userModel->findBy(['phone'=>$phone]);
-        //password_verify()
+        $user = $this->findByPhone($phone);
+        if(empty($user)) throw new BusinessException('用户不能存在');
+        if(!PasswordHash::verify($passwd,$user->passwd)) throw new BusinessException('密码不正确');
         return $user;
     }
 

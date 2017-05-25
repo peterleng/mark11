@@ -5,7 +5,7 @@ return [
     'group' => ['home', 'admin'],
     'default_group' => 'home',
     'sub_domain' => [
-        'www' => 'Home',
+        //'www' => 'Home',
         'admin' => 'Admin',
         'api' => 'Api',
     ],

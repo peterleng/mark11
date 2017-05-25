@@ -15,10 +15,13 @@ use App\Lib\Traits\AjaxTraits;
  */
 class UserController extends BaseController
 {
-    use AjaXTraits;
+    use AjaxTraits;
 
-    /*
+    /**
      * 登录页
+     *
+     * @param Request $request
+     * @return \App\Lib\Http\Response
      */
     public function login(Request $request)
     {
@@ -37,21 +40,21 @@ class UserController extends BaseController
             $query = new UserRepository();
             $user = $query->login($phone,$passwd);
 
-            if(!empty($user)){
-                $this->remember_login($user);
-            }
+            $this->remember_login($user);
 
             return $this->ajaxSuccess('success',$user);
         }catch (LogicException $e){
             return $this->ajaxError($e->getMessage());
         }catch (\Exception $e){
-            return $this->ajaxError('注册失败，请重试');
+            return $this->ajaxError('登录失败，请重试');
         }
     }
-    
 
-    /*
+    /**
      * 注册页
+     *
+     * @param Request $request
+     * @return \App\Lib\Http\Response
      */
     public function register(Request $request)
     {
@@ -68,14 +71,11 @@ class UserController extends BaseController
     public function do_register(Request $request)
     {
         try{
+            $this->verifyRegister($request);
+
             $phone = $request->input('phone');
             $passwd = $request->input('passwd');
-            $imgcode = $request->input('imgcode');
-            if($imgcode != session('imgCode')){
-                throw new BusinessException('验证码填写错误');
-            }
 
-            //TODO 每次实例化？
             $query = new UserRepository();
             $user = $query->registerBy($phone,$passwd);
             $this->remember_login($user);
@@ -88,14 +88,26 @@ class UserController extends BaseController
         }
     }
 
-    /**
+    /*
      * 记住登录状态
-     *
-     * @param $user
      */
     protected function remember_login($user)
     {
         unset($user->passwd);
         session_set('user',$user);
+    }
+
+    /*
+     * 验证注册内容
+     */
+    protected function verifyRegister(Request $request)
+    {
+        if($request->input('imgcode') != session('_imgCode')){
+            throw new BusinessException('验证码填写错误');
+        }
+
+        if(!preg_match('/^1[3578]\d{9}$/i',$request->input('phone'))){
+            throw new BusinessException('手机格式错误');
+        }
     }
 }

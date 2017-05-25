@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Home;
 
-use App\Http\Repositories\UserRepository;
 use App\Lib\Http\Controller as BaseController;
 use App\Lib\Http\Request;
 use App\Lib\Util\ImageCode;
@@ -13,6 +12,11 @@ use App\Lib\Util\ImageCode;
  */
 class PublicController extends BaseController
 {
+    /**
+     * 验证码
+     *
+     * @param Request $request
+     */
     public function imgCode(Request $request)
     {
         $w = $request->input('w',80);
@@ -21,12 +25,7 @@ class PublicController extends BaseController
 
         $imageCode = new ImageCode();
         $imageCode->build($w,$h,$l);
-        session_set('imgCode',$imageCode->getCode());
+        session_set('_imgCode',$imageCode->getCode());
         $imageCode->show();
-    }
-
-    public function register(Request $request)
-    {
-        return view('home.user.register',[]);
     }
 }
