@@ -20,7 +20,7 @@ class ImageCode
      * @param int $height
      * @param int $length
      */
-    public function show($width = 80, $height = 30, $length = 4)
+    public function build($width = 80, $height = 30, $length = 4)
     {
         //生成随机码
         $this->generateCode($length);
@@ -33,10 +33,17 @@ class ImageCode
 
         //向图像中随机画出文本
         $this->outputText($width, $height, $length);
+    }
 
-        //第四步：输出图像
+    /**
+     * 显示图片
+     */
+    public function show()
+    {
+        //输出图像
         $this->outputImage();
     }
+
 
     /**
      * 生成随机码

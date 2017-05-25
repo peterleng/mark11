@@ -49,6 +49,8 @@ class UserRepository
     }
 
     /**
+     * 注册
+     *
      * 通过手机 密码 注册用户
      *
      * @param string $phone
@@ -58,18 +60,23 @@ class UserRepository
      */
     public function registerBy($phone, $passwd)
     {
-        $result = $this->userModel->insert(['phone' => $phone,'passwd'=>bcrypt($passwd),'status'=>1]);
+        $result = $this->userModel->insert(['phone' => $phone,'passwd'=>$passwd,'status'=>1]);
         if (!$result) throw new BusinessException('注册失败，请重试');
         return $this->findByPhone($phone);
     }
 
     /**
      * 登录
+     *
+     * 通过手机号密码登录
+     *
+     * @return mixed
      */
-    /*public function login($phone,$passwd)
+    public function login($phone,$passwd)
     {
         $user = $this->userModel->findBy(['phone'=>$phone]);
-
-    }*/
+        //password_verify()
+        return $user;
+    }
 
 }

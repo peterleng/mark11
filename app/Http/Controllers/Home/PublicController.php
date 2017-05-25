@@ -20,7 +20,9 @@ class PublicController extends BaseController
         $l = $request->input('l',4);
 
         $imageCode = new ImageCode();
-        $imageCode->show($w,$h,$l);
+        $imageCode->build($w,$h,$l);
+        session_set('imgCode',$imageCode->getCode());
+        $imageCode->show();
     }
 
     public function register(Request $request)

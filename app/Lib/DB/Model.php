@@ -93,22 +93,6 @@ class Model
         return $this->sqlBuilder;
     }
 
-
-    /**
-     * sql执行方法
-     *
-     * @param string $method
-     * @param array $params
-     * @return mixed
-     */
-    public function __call($method, $params)
-    {
-        $query = $this->newQuery();
-
-        return call_user_func_array([$query, $method], $params);
-    }
-
-
     /**
      * 是否为更新操作
      *
@@ -139,5 +123,20 @@ class Model
     protected function time()
     {
         return date('Y-m-d H:i:s');
+    }
+
+
+    /**
+     * sql执行方法
+     *
+     * @param string $method
+     * @param array $params
+     * @return mixed
+     */
+    public function __call($method, $params)
+    {
+        $query = $this->newQuery();
+
+        return call_user_func_array([$query, $method], $params);
     }
 }

@@ -114,7 +114,7 @@ if (!function_exists('json')) {
      * 返回json response
      *
      * @param array $data
-     * @return string
+     * @return \App\Lib\Http\JsonResponse
      */
     function json(array $data)
     {
@@ -128,7 +128,7 @@ if (!function_exists('jsonp')) {
      *
      * @param array $data
      * @param string $callback
-     * @return string
+     * @return \App\Lib\Http\JsonResponse
      */
     function jsonp(array $data,$callback = null)
     {

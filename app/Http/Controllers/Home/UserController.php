@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Repositories\UserRepository;
+use App\Lib\Exception\Logic\BusinessException;
+use App\Lib\Exception\Logic\LogicException;
 use App\Lib\Http\Controller as BaseController;
 use App\Lib\Http\Request;
+use App\Lib\Traits\AjaxTraits;
 
 /**
  * User: Peter Leng
@@ -12,6 +15,7 @@ use App\Lib\Http\Request;
  */
 class UserController extends BaseController
 {
+    use AjaXTraits;
 
     /*
      * 登录页
@@ -26,18 +30,23 @@ class UserController extends BaseController
      */
     public function do_login(Request $request)
     {
-        $phone = $request->input('phone');
-        $passwd = $request->input('passwd');
+        try{
+            $phone = $request->input('phone');
+            $passwd = $request->input('passwd');
 
-        $query = new UserRepository();
-        $user = $query->findByPhone($phone);
+            $query = new UserRepository();
+            $user = $query->login($phone,$passwd);
 
-        if(!empty($user) && password_verify($user->passwd,$passwd)){
-            unset($user->passwd);
-            session_set('user',$user);
+            if(!empty($user)){
+                $this->remember_login($user);
+            }
+
+            return $this->ajaxSuccess('success',$user);
+        }catch (LogicException $e){
+            return $this->ajaxError($e->getMessage());
+        }catch (\Exception $e){
+            return $this->ajaxError('注册失败，请重试');
         }
-
-        //TODO AJAX
     }
     
 
@@ -50,21 +59,43 @@ class UserController extends BaseController
     }
 
 
-    /*
+    /**
      * 执行注册
+     *
+     * @param Request $request
+     * @return \App\Lib\Http\JsonResponse
      */
     public function do_register(Request $request)
     {
-        $phone = $request->input('phone');
-        $passwd = $request->input('passwd');
-        $imgcode = $request->input('imgcode');
-        //TODO 验证码
+        try{
+            $phone = $request->input('phone');
+            $passwd = $request->input('passwd');
+            $imgcode = $request->input('imgcode');
+            if($imgcode != session('imgCode')){
+                throw new BusinessException('验证码填写错误');
+            }
 
-        //TODO 每次实例化？
-        $query = new UserRepository();
-        $user = $query->registerBy($phone,$passwd);
+            //TODO 每次实例化？
+            $query = new UserRepository();
+            $user = $query->registerBy($phone,$passwd);
+            $this->remember_login($user);
 
-        //TODO ajax
-        
+            return $this->ajaxSuccess('success',$user);
+        }catch (LogicException $e){
+            return $this->ajaxError($e->getMessage());
+        }catch (\Exception $e){
+            return $this->ajaxError('注册失败，请重试');
+        }
+    }
+
+    /**
+     * 记住登录状态
+     *
+     * @param $user
+     */
+    protected function remember_login($user)
+    {
+        unset($user->passwd);
+        session_set('user',$user);
     }
 }
