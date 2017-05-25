@@ -33,7 +33,7 @@ trait AjaxTraits
      */
     public function ajaxError($info = '',$data= '')
     {
-        return json(['info'=>$info,'data'=>$data,'status'=>'success']);
+        return json(['info'=>$info,'data'=>$data,'status'=>'error']);
     }
 
     /**

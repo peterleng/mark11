@@ -45,7 +45,7 @@ class PasswordHash
     {
         if(strlen($password) === 0) return false;
 
-        return password_hash($password,$hash);
+        return password_verify($password,$hash);
     }
 
 

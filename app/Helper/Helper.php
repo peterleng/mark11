@@ -164,11 +164,23 @@ if (!function_exists('session')) {
     /**
      * 获取session对象
      *
+     * @return \App\Lib\Http\Session
+     */
+    function session()
+    {
+        return App\Lib\Http\Session::getInstance();
+    }
+}
+
+if (!function_exists('session_get')) {
+    /**
+     * 获取session的值
+     *
      * @param string $key
      * @param string $default
      * @return mixed
      */
-    function session($key, $default = null)
+    function session_get($key, $default = null)
     {
         return App\Lib\Http\Session::getInstance()->get($key, $default);
     }

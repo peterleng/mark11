@@ -7,7 +7,6 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="shortcut icon" href="/favicon.png">
     <title>Mark11 - 自己专属的导航站</title>
-
     <!-- Bootstrap -->
     <link href="/resource/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- 自定义样式 -->
@@ -15,8 +14,16 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/resource/plugins/jquery-cookie/jquery.cookie.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/resource/bootstrap3/js/bootstrap.min.js"></script>
+
+    <!-- 表单验证 -->
+    <link href="/resource/plugins/bootstrapvalidator/css/bootstrapValidator.min.css" rel="stylesheet">
+    <script src="/resource/plugins/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <!-- 提示窗 -->
+    <link href="/resource/plugins/toastr/css/toastr.min.css" rel="stylesheet">
+    <script src="/resource/plugins/toastr/js/toastr.min.js"></script>
 
     <script type="text/javascript">
         var MARK = {
@@ -76,18 +83,32 @@
         </div>
         <div class="col-md-4 ">
             <div class="calendar-right">
-                <div class="calendar">
-                    <a class="calendar_a" data-toggle="modal" data-target=".modal" href="<?php echo route('home.user.login') ?>">
-                        <span class="glyphicon glyphicon-user"></span>
-                        <span class="calendar_text">登录</span>
-                    </a>
-                </div>
+                <?php if($user = session_get('user')) : ?>
+                    <div class="calendar logged">
+                        <a class="calendar_a" href="javascript:;">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="calendar_text"> <?php echo $user->phone ?></span>
+                        </a>
+                    </div>
+                    <div class="calendar">
+                        <a class="calendar_a logout" href="javascript:;">
+                            <span class="calendar_text">退出</span>
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <div class="calendar">
+                        <a class="calendar_a" data-toggle="modal" data-target=".modal" href="<?php echo route('home.user.login') ?>">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="calendar_text">登录</span>
+                        </a>
+                    </div>
 
-                <div class="calendar">
-                    <a class="calendar_a" data-toggle="modal" data-target=".modal" href="<?php echo route('home.user.register') ?>">
-                        <span class="calendar_text">注册</span>
-                    </a>
-                </div>
+                    <div class="calendar">
+                        <a class="calendar_a" data-toggle="modal" data-target=".modal" href="<?php echo route('home.user.register') ?>">
+                            <span class="calendar_text">注册</span>
+                        </a>
+                    </div>
+                <?php endif ?>
                 <!--
                 <div class="calendar">
                     <a href="javascript:;" class="calendar_a">
@@ -472,8 +493,18 @@
 </div>
 
 
-<script src="/home/js/index.js"></script>
+<script src="/home/js/mark11.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.logout').on('click',function () {
+            if(!confirm('确定退出？')) return;
 
+            $.get('<?php echo route('home.user.logout') ?>',function (result) {
+                location.href = location.href;
+            });
+        });
+    });
+</script>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
