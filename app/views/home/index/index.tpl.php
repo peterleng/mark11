@@ -134,48 +134,21 @@
 
     <div class="row">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#home" data-toggle="tab">我的常用网址</a></li>
-            <li ><a href="#ios" data-toggle="tab">ios</a></li>
-            <li ><a href="#jmeter" data-toggle="tab">jmeter</a></li>
+            <?php foreach ($tabs as $key => $tab): ?>
+            <li class="<?php if($key == 0): ?>active<?php endif; ?>"><a href="#<?php echo $tab['ename'] ?>" data-toggle="tab"><?php echo $tab['name'] ?></a></li>
+            <?php endforeach; ?>
         </ul>
 
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade in active" id="home">
+            <?php foreach ($tabs as $key => $tab): ?>
+            <div class="tab-pane fade in <?php if($key == 0): ?>active<?php endif; ?>" id="home">
                 <ul class="list-inline">
-                    <li><a href="http://www.baidu.com" target="_blank">30个最常用的网址</a></li>
-                    <li><a href="http://www.baidu.com" target="_blank">百度 • 搜索</a></li>
-                    <li><a href="http://www.baidu.com" target="_blank">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com" target="_blank">网址3网址3网址3</a></li>
+                    <?php foreach ($tab['sites'] as $item): ?>
+                    <li><a href="<?php echo $item->url ?>" target="_blank"><?php echo $item->name ?></a></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
-            <div class="tab-pane fade" id="ios">
-                <ul class="list-inline">
-                    <li><a href="http://www.baidu.com" target="_blank">网址1网址1网址1网址1</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                </ul>
-            </div>
-            <div class="tab-pane fade" id="jmeter">
-                <ul class="list-inline">
-                    <li><a href="http://www.baidu.com" target="_blank">网址1网址1网址1网址1</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                    <li><a href="http://www.baidu.com">网址2网址2</a></li>
-                    <li><a href="http://www.baidu.com">网址3网址3网址3</a></li>
-                </ul>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 

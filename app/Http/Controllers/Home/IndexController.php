@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Home;
 
 
+use App\Http\Repositories\CookieFavoriteRepository;
+use App\Http\Repositories\FavoriteCateRepository;
 use Lagee\Http\Controller as BaseController;
 use Lagee\Http\Request;
+use Lagee\Util\Str;
 
 
 /**
@@ -16,14 +19,41 @@ class IndexController extends BaseController
 
     public function index(Request $request)
     {
-        //var_dump(Session::getInstance());
+        session_set('mark11_favorite',1);
 
-        //session_set('name','hello world');
-        //echo session('name');exit;
-        /*$r = new UserRepository();
-        $user = $r->find(1);
-        print_r($user);exit;*/
+        $tabs = [];
+        $user = session_get('user');
+        if($user){
+            //登录
+            $favCateModel = new FavoriteCateRepository();
+            $tabs = $favCateModel->getUserTabsFavorites($user->id);
+        }else{
+            //未登录
+            $cookie = cookie('mark11_favorite');
+            if(empty($cookie)){
+                $cookie = $this->generateCookie();
+                cookie('mark11_favorite',$cookie,3600*24*30);
+            }else{
+                cookie('mark11_favorite',$cookie,3600*24*30);
+            }
 
-        return view('home.index.index',[]);
+            $favCookieModel = new CookieFavoriteRepository();
+            $tabs = $favCookieModel->getFavorites($cookie);
+        }
+
+        return view('home.index.index',[
+            'tabs' => $tabs
+        ]);
+    }
+
+
+    /**
+     * 生成随机cookie值
+     *
+     * @return string
+     */
+    protected function generateCookie()
+    {
+        return Str::randNumStr(40);
     }
 }

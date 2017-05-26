@@ -152,10 +152,12 @@ if (!function_exists('cookie')) {
         }
 
         if (empty($value)) {
-            return $_COOKIE[$name];
+            return isset($_COOKIE[$name]) ? $_COOKIE[$name] : null;
         }
 
-        return setcookie($name, $value, $expire);
+        return setcookie($name, $value, time() + $expire,config('session.path'),
+            empty(config('session.domain')) ? config('app.domain') : config('session.domain'),
+            config('session.secure'),config('session.http_only'));
     }
 }
 

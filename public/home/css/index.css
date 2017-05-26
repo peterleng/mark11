@@ -360,4 +360,12 @@ h3 a:hover {
     margin-top: 20px;
 }
 
+.tab-pane li{
+    width: 150px;
+    height: 30px;
+
+    overflow: hidden;
+    text-overflow : ellipsis;
+    white-space: nowrap;
+}
 

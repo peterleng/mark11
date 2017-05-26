@@ -117,9 +117,11 @@ class SqlBuilder
             $whereStr = $where;
         }
 
-        $sql = 'SELECT ' . $field . ' FROM `' . $this->model->getTable() . 'WHERE '.$whereStr.' ORDER BY ' . $order. ($limit > 0 ? ' LIMIT ' . $limit : '');
+        $sql = 'SELECT ' . $field . ' FROM `' . $this->model->getTable() . '` WHERE '.$whereStr.' ORDER BY ' . $order. ($limit > 0 ? ' LIMIT ' . $limit : '');
 
-        return $this->mysql()->query($sql, []);
+        $result = $this->mysql()->query($sql, $params);
+
+        return $result ?: [];
     }
 
 
