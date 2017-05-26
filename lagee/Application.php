@@ -57,11 +57,7 @@ class Application
      */
     protected function showError($e)
     {
-        if (APP_DEBUG) {
-            var_dump($e);
-        } else {
-            echo '程序出错了~~~';
-        }
+        APP_DEBUG ? var_dump($e) : print '程序出错了~~~';
         exit;
     }
 
