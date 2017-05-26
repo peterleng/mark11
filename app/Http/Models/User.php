@@ -7,7 +7,7 @@
 namespace App\Http\Models;
 
 
-use App\Lib\DB\Model;
+use Lagee\DB\Model;
 
 class User extends Model
 {

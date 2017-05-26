@@ -8,8 +8,8 @@ namespace App\Http\Repositories;
 
 
 use App\Http\Models\User;
-use App\Lib\Exception\Logic\BusinessException;
-use App\Lib\Util\PasswordHash;
+use Lagee\Exception\Logic\BusinessException;
+use Lagee\Util\PasswordHash;
 
 /**
  * 用户仓库

@@ -6,9 +6,8 @@
 
 define('APP_DEBUG',true);
 
-require_once '../app/Helper/Helper.php';
-require_once './autoload.php';
-require_once '../app/Lib/Application.php';
+require_once '../bootstrap/autoload.php';
+require_once '../lagee/Application.php';
 
-$app = App\Lib\Application::getInstance();
+$app = require_once '../bootstrap/app.php';
 $app->run();

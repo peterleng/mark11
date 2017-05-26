@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Home;
 
 
-use App\Lib\Http\Controller as BaseController;
-use App\Lib\Http\Request;
+use Lagee\Http\Controller as BaseController;
+use Lagee\Http\Request;
 
 
 /**

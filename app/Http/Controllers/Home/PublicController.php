@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Home;
 
-use App\Lib\Http\Controller as BaseController;
-use App\Lib\Http\Request;
-use App\Lib\Util\ImageCode;
+use Lagee\Http\Controller as BaseController;
+use Lagee\Http\Request;
+use Lagee\Util\ImageCode;
 
 /**
  * User: Peter Leng

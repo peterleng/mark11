@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Repositories\UserRepository;
-use App\Lib\Exception\Logic\BusinessException;
-use App\Lib\Exception\Logic\LogicException;
-use App\Lib\Http\Controller as BaseController;
-use App\Lib\Http\Request;
-use App\Lib\Traits\AjaxTraits;
+use Lagee\Exception\Logic\BusinessException;
+use Lagee\Exception\Logic\LogicException;
+use Lagee\Http\Controller as BaseController;
+use Lagee\Http\Request;
+use Lagee\Traits\AjaxTraits;
 
 /**
  * User: Peter Leng
@@ -21,7 +21,7 @@ class UserController extends BaseController
      * 登录页
      *
      * @param Request $request
-     * @return \App\Lib\Http\Response
+     * @return \Lagee\Http\Response
      */
     public function login(Request $request)
     {
@@ -69,7 +69,7 @@ class UserController extends BaseController
      * 注册页
      *
      * @param Request $request
-     * @return \App\Lib\Http\Response
+     * @return \Lagee\Http\Response
      */
     public function register(Request $request)
     {
@@ -81,7 +81,7 @@ class UserController extends BaseController
      * 执行注册
      *
      * @param Request $request
-     * @return \App\Lib\Http\JsonResponse
+     * @return \Lagee\Http\JsonResponse
      */
     public function do_register(Request $request)
     {
@@ -142,7 +142,7 @@ class UserController extends BaseController
      * 退出登录
      *
      * @param Request $request
-     * @return \App\Lib\Http\JsonResponse
+     * @return \Lagee\Http\JsonResponse
      */
     public function logout(Request $request)
     {
