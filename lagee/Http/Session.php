@@ -71,10 +71,27 @@ class Session implements SessionInterface
         return $this;
     }
 
+
+    /**
+     * 获取name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
+
+    /**
+     * 设置name.
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
 
     /**
      * 获取session_id

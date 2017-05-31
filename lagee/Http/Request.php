@@ -3,6 +3,8 @@
 namespace Lagee\Http;
 
 
+use Lagee\Session\SessionInterface;
+
 class Request
 {
 
@@ -55,6 +57,11 @@ class Request
      */
     protected $cookies = [];
 
+    /**
+     * session的值
+     *
+     * @var SessionInterface
+     */
     protected $session;
 
     /**
@@ -162,7 +169,7 @@ class Request
      *
      * http://mark11.dev:8080/abc/123?deee=234
      *
-     * @return 返回 /abc/123?deee=234
+     * @return string 返回 /abc/123?deee=234
      */
     public function getUri()
     {
@@ -358,5 +365,37 @@ class Request
     public function cookie($name = '')
     {
         return isset($this->cookies[$name]) ? $this->cookies[$name] : null;
+    }
+
+    /**
+     * 设置session对象
+     *
+     * @param SessionInterface $session
+     */
+    public function setSession(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * 获取session对象
+     *
+     * @return SessionInterface
+     */
+    public function session()
+    {
+        return $this->session;
+    }
+
+    /**
+     * 获取server的值
+     *
+     * @param string $key
+     * @param string $default
+     * @return string|array
+     */
+    public function server($key = null, $default = null)
+    {
+        return isset($this->server[$key]) ? $this->server[$key] : $default;
     }
 }

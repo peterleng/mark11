@@ -19,7 +19,8 @@ class IndexController extends BaseController
         //var_dump(Session::getInstance());
 
         //session_set('name','hello world');
-        //echo session('name');exit;
+        //var_dump(session()->all());
+        //echo session_get('name');
         /*$r = new UserRepository();
         $user = $r->find(1);
         print_r($user);exit;*/

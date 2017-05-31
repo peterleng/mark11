@@ -94,9 +94,9 @@ class Model
     }
 
     /**
-     * 是否为更新操作
+     * 时间自动更新
      *
-     * @param bool $isUpdate
+     * @param bool $isUpdate 是否为更新操作
      * @return array
      */
     public function generateTime($isUpdate = false)
