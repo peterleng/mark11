@@ -155,7 +155,9 @@ if (!function_exists('cookie')) {
             return $_COOKIE[$name];
         }
 
-        return setcookie($name, $value, time() + $expire);
+        return setcookie($name, $value, time() + $expire,config('session.path'),
+            empty(config('session.domain')) ? config('app.domain') : config('session.domain'),
+            config('session.secure'),config('session.http_only'));
     }
 }
 
