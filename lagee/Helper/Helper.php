@@ -145,7 +145,7 @@ if (!function_exists('cookie')) {
      * @param int $expire
      * @return bool
      */
-    function cookie($name, $value = '', $expire = null)
+    function cookie($name, $value = '', $expire = 1800)
     {
         if (is_null($value)) {
             return setcookie($name, $value, time() - 3600);
