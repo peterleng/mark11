@@ -25,6 +25,20 @@ interface SessionInterface
     public function setId($id);
 
     /**
+     * 获取name.
+     *
+     * @return mixed The session name
+     */
+    public function getName();
+
+    /**
+     * 设置name.
+     *
+     * @param string $name
+     */
+    public function setName($name);
+
+    /**
      * 开启 session
      *
      * @return bool

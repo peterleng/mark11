@@ -46,7 +46,6 @@ class IndexController extends BaseController
         ]);
     }
 
-
     /**
      * 生成随机cookie值
      *

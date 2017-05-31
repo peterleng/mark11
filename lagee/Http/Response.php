@@ -121,7 +121,7 @@ class Response
     protected $cookies = [];
 
 
-    public function __construct($content='',$status = 200,$headers = [])
+    public function __construct($content = '', $status = 200, $headers = [])
     {
         $this->content = $content;
         $this->statusCode = $status;
@@ -133,7 +133,7 @@ class Response
     /**
      * 设置头部信息
      */
-    protected function setHeaders($name,$value)
+    protected function setHeaders($name, $value)
     {
         $this->headers[$name] = $value;
         return $this;
@@ -147,7 +147,7 @@ class Response
      */
     protected function mergeHeaders(array $headers)
     {
-        return array_merge($this->headers,$headers);
+        return array_merge($this->headers, $headers);
     }
 
 
@@ -159,6 +159,16 @@ class Response
     public function withCookie(Cookie $cookie)
     {
         $this->cookies[$cookie->getName()] = $cookie;
+    }
+
+    /**
+     * 获取cookie
+     *
+     * @return array
+     */
+    public function getCookies()
+    {
+        return $this->cookies;
     }
 
 
@@ -186,13 +196,13 @@ class Response
         if (!isset($this->headers['Date'])) {
             $date = new \DateTime();
             $date->setTimezone(new \DateTimeZone('UTC'));
-            $this->headers['Date'] = $date->format('D, d M Y H:i:s').' GMT';
+            $this->headers['Date'] = $date->format('D, d M Y H:i:s') . ' GMT';
         }
 
         // headers
         foreach ($this->headers as $name => $value) {
             //foreach ($values as $value) {
-                header($name.': '.$value, false, $this->statusCode);
+            header($name . ': ' . $value, false, $this->statusCode);
             //}
         }
 

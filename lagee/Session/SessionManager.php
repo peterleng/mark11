@@ -6,10 +6,14 @@
 
 namespace Lagee\Session;
 
+use Closure;
+use Lagee\Http\Cookie;
 use Lagee\Http\Request;
+use Lagee\Http\Response;
 use Lagee\Http\Session;
+use Lagee\Middleware\Middleware as BaseMiddleware;
 
-class SessionManager
+class SessionManager extends BaseMiddleware
 {
     protected static $driverHandler = 'Lagee\\Session\\SessionHandlers\\';
 
@@ -17,10 +21,38 @@ class SessionManager
 
     protected $config;
 
+    /**
+     * 排除的路由
+     *
+     * @var array
+     */
+    protected $except = [
+
+    ];
+
+
     public function __construct()
     {
         $this->config = config('session');
     }
+
+    /**
+     * 处理中间件
+     *
+     * @param Request $request
+     * @param Closure $next
+     * @return Response
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        if($this->shouldRoutePass($request)) return $next($request);
+
+        $session = $this->startSession($request);
+        $response = $next($request);
+        $response = $this->terminate($response,$session);
+        return $response;
+    }
+
 
     /**
      * 开启session
@@ -28,7 +60,7 @@ class SessionManager
      * @param Request $request
      * @return Session
      */
-    public function startSession(Request $request)
+    protected function startSession(Request $request)
     {
         $this->started = true;
 
@@ -37,29 +69,42 @@ class SessionManager
             $session = $this->getSession($request);
             $session->start();
 
-            //百分之一的概率清除过期session
-            if(random_int(1,100) <= 2){
-                $session->getHandler()->gc($this->config['lifetime']);
-            }
+            $request->setSession($session);
         }
 
         return $session;
     }
 
+    /**
+     * 收集垃圾
+     */
+    protected function collectGarbage(SessionInterface $session)
+    {
+        //百分之一的概率清除过期session
+        if(random_int(1,100) <= 2){
+            $session->getHandler()->gc($this->config['lifetime']);
+        }
+    }
 
     /**
      * 结束session 写入cookie保持session状态
      *
+     * @param Response $response
      * @param Session $session
+     * @return Response
      */
-    public function destroySession(Session $session)
+    protected function terminate($response,Session $session)
     {
+        $this->collectGarbage($session);
+
         $session->save();
 
-        setcookie($session->getName(),$session->getId(),time()+$this->config['lifetime'],$this->config['path'],
-                            empty($this->config['domain']) ? config('app.domain') : $this->config['domain'],
-                            $this->config['secure'],$this->config['http_only']);
-
+        $response->withCookie(
+            new Cookie($session->getName(),$session->getId(),time()+$this->config['lifetime'],$this->config['path'],
+                empty($this->config['domain']) ? config('app.domain') : $this->config['domain'],
+                $this->config['secure'],$this->config['http_only'])
+        );
+        return $response;
     }
 
     /**

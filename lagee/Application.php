@@ -22,14 +22,11 @@ class Application
 
     protected $request;
 
-    protected $sessionManager;
-
     protected function __construct()
     {
         $this->config = Config::getInstance();
         $this->router = new Router();
         $this->request = new Request();
-        $this->sessionManager = new SessionManager();
     }
 
     /**
@@ -38,10 +35,7 @@ class Application
     public function run()
     {
         try {
-            $session = $this->sessionManager->startSession($this->request);
-            $response = $this->router->render($this->request);
-            $this->sessionManager->destroySession($session);
-            $response->send();
+            $this->router->render($this->request);
         } catch (\Exception $e) {
             $this->showError($e);
         } catch (\Throwable $t) {
