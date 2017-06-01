@@ -25,23 +25,33 @@ class VerifyCsrfToken extends BaseMiddleware
 
     ];
 
-
     /**
-     * 处理中间件
+     * 中间件前置方法
      *
      * @param Request $request
-     * @param Closure $next
-     * @return Response
+     * @return bool
      * @throws TokenException
      */
-    public function handle(Request $request, Closure $next)
+    public function before(Request $request)
     {
         if($request->isMethod('get') || $this->shouldRoutePass($request) || $this->tokensMatch($request)){
-            return $this->addCookieToResponse($next($request));
+            return true;
         }
 
-       throw new TokenException('CSRF token验证失败');
+        throw new TokenException('CSRF token验证失败');
     }
+
+    /**
+     * 中间件后置方法
+     *
+     * @param Response $response
+     * @return Response
+     */
+    public function after(Response $response)
+    {
+        return $this->addCookieToResponse($response);
+    }
+
 
     /**
      * token匹配
