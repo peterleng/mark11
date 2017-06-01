@@ -60,9 +60,7 @@ class SessionManager extends BaseMiddleware
      */
     public function after(Response $response)
     {
-        $session = Session::getInstance();
-
-        return $this->terminate($response,$session);
+        return $this->terminate($response);
     }
 
     /**
@@ -101,11 +99,13 @@ class SessionManager extends BaseMiddleware
      * 结束session 写入cookie保持session状态
      *
      * @param Response $response
-     * @param Session $session
      * @return Response
      */
-    protected function terminate($response,Session $session)
+    protected function terminate($response)
     {
+        $session = Session::getInstance();
+        if(!$session->isStarted()) return $response;
+
         $this->collectGarbage($session);
 
         $session->save();
