@@ -31,6 +31,7 @@
                 <img src="<?php echo route('home.public.imgCode') ?>" title="点击刷新验证码" onclick="this.src='<?php echo route('home.public.imgCode') ?>?'+Math.random();return false;" style="cursor: pointer;">
             </div>
         </div>
+        <input type="hidden" name="_token" value="<?php echo session_get('_token') ?>">
     </form>
 </div>
 <div class="modal-footer">
