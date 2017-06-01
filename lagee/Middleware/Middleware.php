@@ -9,6 +9,7 @@ namespace Lagee\Middleware;
 
 use Closure;
 use Lagee\Http\Request;
+use Lagee\Http\Response;
 
 abstract class Middleware
 {
@@ -20,7 +21,21 @@ abstract class Middleware
     protected $except = [];
 
 
-    abstract public function handle(Request $request, Closure $next);
+    /**
+     * 中间件前置方法
+     *
+     * @param Request $request
+     * @return bool
+     */
+    abstract public function before(Request $request);
+
+    /**
+     * 中间件后置方法
+     *
+     * @param Response $response
+     * @return Response
+     */
+    abstract public function after(Response $response);
 
 
     /**

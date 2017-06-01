@@ -37,22 +37,33 @@ class SessionManager extends BaseMiddleware
     }
 
     /**
-     * 处理中间件
+     * 中间件前置方法
      *
      * @param Request $request
-     * @param Closure $next
-     * @return Response
+     * @return bool
      */
-    public function handle(Request $request, Closure $next)
+    public function before(Request $request)
     {
-        if($this->shouldRoutePass($request)) return $next($request);
+        if($this->shouldRoutePass($request)){
+            return true;
+        }
 
-        $session = $this->startSession($request);
-        $response = $next($request);
-        $response = $this->terminate($response,$session);
-        return $response;
+        $this->startSession($request);
+        return true;
     }
 
+    /**
+     * 中间件后置方法
+     *
+     * @param Response $response
+     * @return Response
+     */
+    public function after(Response $response)
+    {
+        $session = Session::getInstance();
+
+        return $this->terminate($response,$session);
+    }
 
     /**
      * 开启session

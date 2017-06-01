@@ -10,7 +10,7 @@ namespace Lagee\Route;
 use Lagee\Http\Controller;
 use Lagee\Http\Request;
 use Lagee\Http\Response;
-use App\Http\Middleware\MiddlewareManager;
+use App\Http\Middleware\Middleware;
 
 class Router
 {
@@ -19,11 +19,9 @@ class Router
 
     protected $middlewareManager;
 
-    protected $response;
-
     public function __construct()
     {
-        $this->middlewareManager = new MiddlewareManager();
+        $this->middlewareManager = new Middleware();
     }
 
 
@@ -36,10 +34,7 @@ class Router
     public function render($request)
     {
         $response = $this->middlewareManager->handle($request, function ($request) {
-            if(empty($this->response)){
-                $this->response = $this->dispatch($request);
-            }
-            return $this->response;
+            return $this->dispatch($request);
         });
 
         return $response->send();
