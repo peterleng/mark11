@@ -80,8 +80,10 @@ class UserRepository
     public function login($phone,$passwd)
     {
         $user = $this->findByPhone($phone);
-        if(empty($user)) throw new BusinessException('用户不能存在',503);
-        if(!PasswordHash::verify($passwd,$user->passwd)) throw new BusinessException('密码不正确',504);
+        //if(empty($user)) throw new BusinessException('用户不能存在',503);
+        //if(!PasswordHash::verify($passwd,$user->passwd)) throw new BusinessException('密码不正确',504);
+        if(empty($user) || !PasswordHash::verify($passwd,$user->passwd))
+            throw new BusinessException('用户名或密码错误',504);
         return $user;
     }
 
