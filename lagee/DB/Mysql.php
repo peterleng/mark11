@@ -5,9 +5,7 @@ namespace Lagee\DB;
 use Lagee\Exception\Program\DBConnectionException;
 use Lagee\Traits\Singleton;
 use Closure;
-use Exception;
 use Mysqli;
-use Throwable;
 
 /**
  * User: Peter Leng
@@ -139,13 +137,17 @@ class Mysql
      *
      * @param string $sql
      * @param array $params
+     * @param string $fetch_type
      * @return mixed
      */
-    public function query($sql, array $params)
+    public function query($sql, array $params ,$fetch_type = 'fetch_object')
     {
-        return $this->prepare($sql,$params,function ($stmt){
+        return $this->prepare($sql,$params,function ($stmt) use($fetch_type){
             $result = $stmt->get_result();
-            return $result->fetch_object();
+            if($fetch_type == 'fetch_all'){
+                return $result->fetch_all(MYSQLI_ASSOC);
+            }
+            return $result->{$fetch_type}();
         });
     }
 

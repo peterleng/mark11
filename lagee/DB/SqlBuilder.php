@@ -35,10 +35,24 @@ class SqlBuilder
      */
     public function mysql()
     {
-        if($this->mysql == null){
+        if ($this->mysql == null) {
             $this->mysql = Mysql::getInstance();
         }
         return $this->mysql;
+    }
+
+
+    /**
+     * 查询操作
+     *
+     * @param string $sql
+     * @param array $params
+     * @param string $fetch_type
+     * @return mixed
+     */
+    public function query($sql, array $params, $fetch_type = 'fetch_object')
+    {
+        return $this->mysql()->query($sql, $params, $fetch_type);
     }
 
     /**
@@ -51,7 +65,7 @@ class SqlBuilder
     {
         $sql = 'SELECT * FROM `' . $this->model->getTable() . '` WHERE `' . $this->model->getPrimary() . '` = ? LIMIT 1';
 
-        return $this->mysql()->query($sql, [$id]);
+        return $this->query($sql, [$id]);
     }
 
     /**
@@ -60,7 +74,7 @@ class SqlBuilder
      * @param string|array $where
      * @return mixed
      */
-    public function findBy($where)
+    public function findBy($where = null)
     {
         $whereStr = '';
         $params = $whereArr = [];
@@ -74,24 +88,79 @@ class SqlBuilder
             $whereStr = $where;
         }
 
-        $sql = 'SELECT * FROM `' . $this->model->getTable() . '` WHERE ' . $whereStr . ' LIMIT 1';
+        $sql = 'SELECT * FROM `' . $this->model->getTable() . '`' . (empty($whereStr) ? '' : ' WHERE ' . $whereStr) . ' LIMIT 1';
 
-        return $this->mysql()->query($sql, $params);
+        return $this->query($sql, $params);
     }
 
+
+    /**
+     * 查询数量
+     *
+     * @param string|array $where
+     * @return int
+     */
+    public function count($where = null)
+    {
+        $whereStr = '';
+        $params = $whereArr = [];
+        if (is_array($where)) {
+            foreach ($where as $key => $item) {
+                $whereArr[] = '`' . $key . '` = ?';
+                $params[] = $item;
+            }
+            $whereStr = implode(' and ', $whereArr);
+        } else {
+            $whereStr = $where;
+        }
+
+        $sql = 'SELECT COUNT(*) as aggregate FROM `' . $this->model->getTable() . '`' . (empty($whereStr) ? '' : ' WHERE ' . $whereStr);
+
+        $result = $this->query($sql, $params, 'fetch_assoc');
+
+        return empty($result) ? 0 : $result['aggregate'];
+    }
+
+    /**
+     * 求和
+     *
+     * @param string|array $where
+     * @param string $field
+     * @return int|float
+     */
+    public function sum($where = null, $field)
+    {
+        $whereStr = '';
+        $params = $whereArr = [];
+        if (is_array($where)) {
+            foreach ($where as $key => $item) {
+                $whereArr[] = '`' . $key . '` = ?';
+                $params[] = $item;
+            }
+            $whereStr = implode(' and ', $whereArr);
+        } else {
+            $whereStr = $where;
+        }
+
+        $sql = 'SELECT SUM(' . $field . ') as aggregate FROM `' . $this->model->getTable() . '`' . (empty($whereStr) ? '' : ' WHERE ' . $whereStr);
+
+        $result = $this->query($sql, $params, 'fetch_assoc');
+
+        return empty($result) ? 0 : $result['aggregate'];
+    }
 
     /**
      * 获取全部记录
      *
      * @param string $field
      * @param string $order
-     * @return mixed
+     * @return array
      */
     public function all($field = '*', $order = '`id` DESC')
     {
         $sql = 'SELECT ' . $field . ' FROM `' . $this->model->getTable() . ' ORDER BY ' . $order;
 
-        return $this->mysql()->query($sql, []);
+        return $this->query($sql, [], 'fetch_all');
     }
 
     /**
@@ -101,9 +170,9 @@ class SqlBuilder
      * @param string $order
      * @param int $limit
      * @param string $field
-     * @return mixed
+     * @return array
      */
-    public function getList($where, $order = '`id` DESC', $limit = null,$field = '*')
+    public function getList($where, $order = '`id` DESC', $limit = null, $field = '*')
     {
         $whereStr = '';
         $params = $whereArr = [];
@@ -117,11 +186,10 @@ class SqlBuilder
             $whereStr = $where;
         }
 
-        $sql = 'SELECT ' . $field . ' FROM `' . $this->model->getTable() . 'WHERE '.$whereStr.' ORDER BY ' . $order. ($limit > 0 ? ' LIMIT ' . $limit : '');
+        $sql = 'SELECT ' . $field . ' FROM `' . $this->model->getTable() . 'WHERE ' . $whereStr . ' ORDER BY ' . $order . ($limit > 0 ? ' LIMIT ' . $limit : '');
 
-        return $this->mysql()->query($sql, []);
+        return $this->query($sql, [], 'fetch_all');
     }
-
 
 
     /**
@@ -132,17 +200,17 @@ class SqlBuilder
      */
     public function insert(array $values)
     {
-        $values = array_merge($values,$this->model->generateTime(false));
+        $values = array_merge($values, $this->model->generateTime(false));
 
         $fields = $wh = '';
         $params = [];
         foreach ($values as $key => $value) {
-            $fields .= '`'.$key.'`,';
+            $fields .= '`' . $key . '`,';
             $wh .= '?,';
             $params[] = $value;
         }
 
-        $sql = 'INSERT INTO `' . $this->model->getTable() . '` ('.rtrim($fields,',').') VALUES  (' . rtrim($wh, ',') . ')';
+        $sql = 'INSERT INTO `' . $this->model->getTable() . '` (' . rtrim($fields, ',') . ') VALUES  (' . rtrim($wh, ',') . ')';
 
         return $this->mysql()->insert($sql, $params);
     }
@@ -158,7 +226,7 @@ class SqlBuilder
      */
     public function update($where, array $values, $limit = null)
     {
-        $values = array_merge($values,$this->model->generateTime(true));
+        $values = array_merge($values, $this->model->generateTime(true));
 
         $whereStr = $valStr = '';
         $params = $whereArr = $valueArr = [];

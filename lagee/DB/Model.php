@@ -11,13 +11,16 @@ use Closure;
 /**
  * Class Model
  *
+ * @method mixed query(string $sql, array $params, string $fetch_type = 'fetch_object')
  * @method mixed find(int $id)
- * @method mixed findBy(string|array $where)
- * @method mixed all(string $field,string $order)
- * @method mixed getList(string|array $where,string $order,int $limit,string $field)
+ * @method mixed findBy(string | array $where)
+ * @method int count(string | array $where)
+ * @method int|float sum(string | array $where, string $field)
+ * @method array all(string $field, string $order)
+ * @method array getList(string | array $where, string $order, int $limit, string $field)
  * @method int insert(array $values)
- * @method int update(string|array $where,array $values,int $limit)
- * @method int delete(string|array $where,int $limit)
+ * @method int update(string | array $where, array $values, int $limit)
+ * @method int delete(string | array $where, int $limit)
  * @method int deleteOne(int $id)
  * @method mixed transaction(Closure $callback)
  * @method array getLastSql()
@@ -48,7 +51,7 @@ class Model
     public function getTable()
     {
         if (isset($this->table)) {
-            return $this->getPrefix().$this->table;
+            return $this->getPrefix() . $this->table;
         }
 
         return $this->getPrefix() . strtolower(get_class($this));
@@ -87,7 +90,7 @@ class Model
      */
     public function newQuery()
     {
-        if($this->sqlBuilder == null){
+        if ($this->sqlBuilder == null) {
             $this->sqlBuilder = new SqlBuilder($this);
         }
         return $this->sqlBuilder;
@@ -101,14 +104,14 @@ class Model
      */
     public function generateTime($isUpdate = false)
     {
-        if(!$this->timestamps) return [];
+        if (!$this->timestamps) return [];
         $result = [];
 
-        if(!empty($this->create_time) && !$isUpdate){
+        if (!empty($this->create_time) && !$isUpdate) {
             $result[$this->create_time] = $this->time();
         }
 
-        if(!empty($this->update_time)){
+        if (!empty($this->update_time)) {
             $result[$this->update_time] = $this->time();
         }
 
