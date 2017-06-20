@@ -65,7 +65,7 @@ class VerifyCsrfToken extends BaseMiddleware
 
         $token = $request->input('_token') ?: $request->server('X-CSRF-TOKEN');
 
-        $token = empty($token) ? $request->server('X-XSRF-TOKEN') : null;
+        $token = empty($token) ? $request->server('X-XSRF-TOKEN') : $token;
 
         if (! is_string($sessionToken) || ! is_string($token)) {
             return false;
